@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns:atg="http://atg.xbox.com" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{8e114980-c1a3-4ada-ad7c-83caadf5daeb}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="DXUT">
+      <UniqueIdentifier>{a43c5c25-0e86-4a20-b64a-883785ff74fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{2c3d4c8c-5d1a-459a-a05a-a4e4b608a44e}</UniqueIdentifier>
+      <Extensions>fx;fxh;hlsl</Extensions>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{1cb9bc16-cbe4-43f7-8036-5bd7b8edbf9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="managers">
+      <UniqueIdentifier>{9c22c1dc-7fec-4a16-bf8f-e4e1e1a8c9b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="managers\sceneManager">
+      <UniqueIdentifier>{e5cae1dd-d674-4b62-b54a-7da5e09d259d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scenes">
+      <UniqueIdentifier>{ad52b5a7-d618-46f4-966d-8f7ad085108b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scenes\gameScene">
+      <UniqueIdentifier>{7ba7e5a3-cafc-439b-b46f-d3d38f31656f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scenes\gameScene\tiles">
+      <UniqueIdentifier>{3460e2d4-a769-4390-af51-3eb11b3e1894}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DXUT\Optional\directx.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <ClInclude Include="DXUT\Core\DXUT.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\DXUTenum.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\DXUTmisc.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClCompile Include="DXUT\Core\DXUT.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\DXUTenum.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\DXUTmisc.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClInclude Include="DXUT\Optional\DXUTcamera.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\DXUTgui.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\DXUTres.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\DXUTsettingsdlg.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\SDKmesh.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\SDKmisc.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClCompile Include="DXUT\Optional\DXUTcamera.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\DXUTgui.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\DXUTres.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\DXUTsettingsdlg.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\SDKmesh.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\SDKmisc.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EmptyProject.cpp" />
+    <ClCompile Include="mainGame.cpp" />
+    <ClCompile Include="texture.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="cSceneManager.cpp">
+      <Filter>managers\sceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cTransform.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="mainScene.cpp">
+      <Filter>scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="cScene.cpp">
+      <Filter>scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="gameScene.cpp">
+      <Filter>scenes\gameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="tileAdmin.cpp">
+      <Filter>scenes\gameScene\tiles</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="mainGame.h" />
+    <ClInclude Include="singleton.h">
+      <Filter>managers</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="cSceneManager.h">
+      <Filter>managers\sceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cTransform.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="mainScene.h">
+      <Filter>scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="cScene.h">
+      <Filter>scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="gameScene.h">
+      <Filter>scenes\gameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="tileAdmin.h">
+      <Filter>scenes\gameScene\tiles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CLInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </CLInclude>
+    <ResourceCompile Include="EmptyProject.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>

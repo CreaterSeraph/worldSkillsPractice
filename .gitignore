@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+*.suo
+*.opendb
+*.db
+*.ipch
+mapEditer/WindowsProject2/x64/
+mapEditer/x64/
+testConsol/Debug/
+EmptyProject/Debug/
