@@ -391,24 +391,28 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cImageManager.cpp" />
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
     <ClCompile Include="gameScene.cpp" />
     <ClCompile Include="mainGame.cpp" />
     <ClCompile Include="mainScene.cpp" />
+    <ClCompile Include="readyScene.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="cTransform.cpp" />
-    <ClCompile Include="tileAdmin.cpp" />
+    <ClCompile Include="tiles.cpp" />
+    <ClInclude Include="cImageManager.h" />
     <ClInclude Include="cScene.h" />
     <ClInclude Include="cSceneManager.h" />
     <ClInclude Include="gameScene.h" />
     <ClInclude Include="mainGame.h" />
     <ClInclude Include="mainScene.h" />
+    <ClInclude Include="readyScene.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="cTransform.h" />
-    <ClInclude Include="tileAdmin.h" />
+    <ClInclude Include="tiles.h" />
     <None Include="DXUT\Optional\directx.ico" />
     <ClInclude Include="DXUT\Core\DXUT.h" />
     <ClInclude Include="DXUT\Core\DXUTenum.h" />

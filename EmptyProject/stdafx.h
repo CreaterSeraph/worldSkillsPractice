@@ -9,6 +9,7 @@
 #include <thread>
 #include <algorithm>
 #include <string>
+#include <array>
 
 using namespace std;
 
@@ -26,3 +27,4 @@ const int WINSIZEY = 720;
 #include "cTransform.h"
 #include "texture.h"
 #include "cSceneManager.h"
+#include "cImageManager.h"

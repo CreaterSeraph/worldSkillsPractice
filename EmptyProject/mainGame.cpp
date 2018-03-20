@@ -1,6 +1,8 @@
 #include "DXUT.h"
 #include "mainGame.h"
 #include "mainScene.h"
+#include "gameScene.h"
+#include "readyScene.h"
 
 mainGame::mainGame()
 {
@@ -16,6 +18,9 @@ void mainGame::Init()
 	D3DXCreateSprite(Device, &sprite);
 
 	SCENEMANAGER->AddScene("main", shared_ptr<cScene>(new mainScene));
+	auto ingame = SCENEMANAGER->AddScene("game", shared_ptr<cScene>(new gameScene));
+	auto castedGameScene = static_pointer_cast<gameScene>(ingame.lock());
+	SCENEMANAGER->AddScene("ready", shared_ptr<cScene>(new readyScene(castedGameScene)));
 	SCENEMANAGER->ChangeScene("main");
 }
 
@@ -40,8 +45,10 @@ void mainGame::Render()
 
 void mainGame::LostDevice()
 {
+	sprite->OnLostDevice();
 }
 
 void mainGame::ResetDevice()
 {
+	sprite->OnResetDevice();
 }

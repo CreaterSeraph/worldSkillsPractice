@@ -13,12 +13,12 @@ mainScene::~mainScene()
 
 void mainScene::Init()
 {
+	SCENEMANAGER->ChangeScene("ready");
 }
 
 void mainScene::Release()
 {
 }
-
 
 void mainScene::Update(double dt)
 {

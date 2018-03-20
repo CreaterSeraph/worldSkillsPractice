@@ -30,6 +30,9 @@
     <Filter Include="scenes\gameScene\tiles">
       <UniqueIdentifier>{3460e2d4-a769-4390-af51-3eb11b3e1894}</UniqueIdentifier>
     </Filter>
+    <Filter Include="scenes\readyScene">
+      <UniqueIdentifier>{fb3505e8-3cb6-481a-91bb-1d59fa43b935}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -111,8 +114,14 @@
     <ClCompile Include="gameScene.cpp">
       <Filter>scenes\gameScene</Filter>
     </ClCompile>
-    <ClCompile Include="tileAdmin.cpp">
+    <ClCompile Include="tiles.cpp">
       <Filter>scenes\gameScene\tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="readyScene.cpp">
+      <Filter>scenes\readyScene</Filter>
+    </ClCompile>
+    <ClCompile Include="cImageManager.cpp">
+      <Filter>managers\sceneManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,8 +148,14 @@
     <ClInclude Include="gameScene.h">
       <Filter>scenes\gameScene</Filter>
     </ClInclude>
-    <ClInclude Include="tileAdmin.h">
+    <ClInclude Include="tiles.h">
       <Filter>scenes\gameScene\tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="readyScene.h">
+      <Filter>scenes\readyScene</Filter>
+    </ClInclude>
+    <ClInclude Include="cImageManager.h">
+      <Filter>managers\sceneManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

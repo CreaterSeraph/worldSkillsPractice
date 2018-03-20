@@ -32,5 +32,5 @@ void texture::Render(LPD3DXSPRITE sprite, float x, float y, const D3DXMATRIX& ca
 	D3DXMATRIXA16 matT;
 	D3DXMatrixTranslation(&matT, x, y, 0);
 	sprite->SetTransform(&(matT * camMatrix));
-	sprite->Draw(m_texturePtr, nullptr, nullptr, nullptr, 0xffffffff);
+	sprite->Draw(m_texturePtr, nullptr, &m_center, &m_pos, 0xffffffff);
 }

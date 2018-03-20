@@ -14,6 +14,7 @@ public:
 
 	weak_ptr<cScene> AddScene(const string& key, shared_ptr<cScene> scene);
 	weak_ptr<cScene> ChangeScene(const string& key);
+	weak_ptr<cScene> FindScene(const string& key);
 	
 	void Release();
 	void Update(double dt);
