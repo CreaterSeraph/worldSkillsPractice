@@ -33,6 +33,21 @@
     <Filter Include="scenes\readyScene">
       <UniqueIdentifier>{fb3505e8-3cb6-481a-91bb-1d59fa43b935}</UniqueIdentifier>
     </Filter>
+    <Filter Include="scenes\gameScene\unit">
+      <UniqueIdentifier>{18c7ce1d-db48-4de8-885f-e9f7c4252285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="managers\imageManager">
+      <UniqueIdentifier>{d93701dd-5d8d-4811-b75f-f51e294586f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="managers\randManager">
+      <UniqueIdentifier>{ea561ada-69cb-469b-a47e-68c087d24f7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="managers\keyManager">
+      <UniqueIdentifier>{75dbc810-5723-4e3b-8f94-a1464bb4ca51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="objects">
+      <UniqueIdentifier>{92b49a7b-cd9d-4228-95cf-79f94e5e9966}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -120,8 +135,23 @@
     <ClCompile Include="readyScene.cpp">
       <Filter>scenes\readyScene</Filter>
     </ClCompile>
+    <ClCompile Include="unit.cpp">
+      <Filter>scenes\gameScene\unit</Filter>
+    </ClCompile>
     <ClCompile Include="cImageManager.cpp">
-      <Filter>managers\sceneManager</Filter>
+      <Filter>managers\imageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="randManager.cpp">
+      <Filter>managers\randManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cKeyManager.cpp">
+      <Filter>managers\keyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="cButton.cpp">
+      <Filter>objects</Filter>
+    </ClCompile>
+    <ClCompile Include="font.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,8 +184,23 @@
     <ClInclude Include="readyScene.h">
       <Filter>scenes\readyScene</Filter>
     </ClInclude>
+    <ClInclude Include="unit.h">
+      <Filter>scenes\gameScene\unit</Filter>
+    </ClInclude>
     <ClInclude Include="cImageManager.h">
-      <Filter>managers\sceneManager</Filter>
+      <Filter>managers\imageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="randManager.h">
+      <Filter>managers\randManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cKeyManager.h">
+      <Filter>managers\keyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cButton.h">
+      <Filter>objects</Filter>
+    </ClInclude>
+    <ClInclude Include="font.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

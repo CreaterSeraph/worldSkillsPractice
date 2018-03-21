@@ -9,6 +9,7 @@
 #include "mainGame.h"
 
 mainGame mg;
+POINT ptMouse;
 
 //--------------------------------------------------------------------------------------
 // Rejects any D3D9 devices that aren't acceptable to the app by returning false
@@ -94,6 +95,11 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
 LRESULT CALLBACK MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam,
                           bool* pbNoFurtherProcessing, void* pUserContext )
 {
+	if (uMsg == WM_MOUSEMOVE)
+	{
+		ptMouse.x = LOWORD(lParam);
+		ptMouse.y = HIWORD(lParam);
+	}
     return 0;
 }
 

@@ -42,5 +42,6 @@ struct texture
 
 	void Render(LPD3DXSPRITE sprite, const cTransform& transform, const D3DXMATRIX& camMatrix = GetIdentityMatrix(), const RECT* rc = nullptr);
 	void Render(LPD3DXSPRITE sprite, float x, float y, const D3DXMATRIX& camMatrix = GetIdentityMatrix());
+	void Render(LPD3DXSPRITE sprite, const D3DXVECTOR2& pos, const D3DXMATRIX& camMatrix = GetIdentityMatrix());
 };
 

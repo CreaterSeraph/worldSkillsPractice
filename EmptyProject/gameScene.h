@@ -9,8 +9,32 @@ private:
 	unique_ptr<tiles> m_enemyTiles;
 
 	shared_ptr<texture> background;
+
+	shared_ptr<texture> topBarUI;
+	shared_ptr<texture> sideBarUI;
 	shared_ptr<texture> itemBarUI;
+	D3DXVECTOR2 sideBarPos;
+
 	shared_ptr<texture> timeBarUI;
+
+	shared_ptr<texture> normalTile;
+	shared_ptr<texture> selectTile;
+	shared_ptr<texture> selectArrow;
+	vector<shared_ptr<texture>> vCloud;
+
+	bool playerTurn;
+	bool gameReady;
+
+	int selectIdx;
+
+	optional<float> moveProgress;
+	D3DXVECTOR2 camStartPos;
+	D3DXVECTOR2 camEndPos;
+private:
+	int SelectPos();
+	D3DXVECTOR2 GetTilePos(size_t idx);
+	D3DXVECTOR2 GetTilePos(int x, int y);
+
 public:
 	gameScene();
 	~gameScene();

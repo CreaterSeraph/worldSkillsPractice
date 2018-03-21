@@ -1,9 +1,22 @@
 #pragma once
+
+//typedef pair<D3DXVECTOR2, double> CamData;
+struct CamData
+{
+	double scale;
+	D3DXVECTOR2 pos;
+
+	CamData(const D3DXVECTOR2& pos, double scale = 1)
+		:pos(pos), scale(scale)
+	{
+	}
+};
+
+
 class cScene abstract
 {
 protected:
-	double m_camScale;
-	D3DXVECTOR2 m_camPos;
+	CamData m_cam;
 
 	D3DXMATRIX GetCamMaxtrix();
 public:

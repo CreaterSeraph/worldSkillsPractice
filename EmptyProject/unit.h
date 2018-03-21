@@ -1,7 +1,7 @@
 #pragma once
 struct unit
 {
-	vector<shared_ptr<texture>> vFrameImage;
+	const size_t maxFrame;
 	size_t frame;
 	double frameTime;
 
@@ -9,6 +9,13 @@ struct unit
 	double minDelay;
 	D3DXVECTOR2 offset;
 
-	unit(const vector<shared_ptr<texture>>& frameImage, const D3DXVECTOR2& offset, double maxDelay, double minDelay);
+	unit(size_t maxFrame, const D3DXVECTOR2& offset, double maxDelay, double minDelay);
 	~unit();
+
+	void Update(double dt);
+};
+
+class Units
+{
+	vector<unit> units;
 };

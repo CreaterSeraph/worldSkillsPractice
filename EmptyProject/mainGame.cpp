@@ -31,6 +31,8 @@ void mainGame::Release()
 
 void mainGame::Update(double dt)
 {
+	KEYMANAGER->Update();
+
 	SCENEMANAGER->Update(dt);
 }
 

@@ -17,6 +17,8 @@ readyScene::~readyScene()
 void readyScene::Init()
 {
 	settingEnd = true;
+	m_playerTiles = unique_ptr<tiles>(new tiles());
+	m_enemyTiles = unique_ptr<tiles>(new tiles());
 }
 
 void readyScene::Release()

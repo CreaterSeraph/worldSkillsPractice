@@ -391,28 +391,38 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cButton.cpp" />
     <ClCompile Include="cImageManager.cpp" />
+    <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cSceneManager.cpp" />
+    <ClCompile Include="font.cpp" />
     <ClCompile Include="gameScene.cpp" />
     <ClCompile Include="mainGame.cpp" />
     <ClCompile Include="mainScene.cpp" />
+    <ClCompile Include="randManager.cpp" />
     <ClCompile Include="readyScene.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="cTransform.cpp" />
     <ClCompile Include="tiles.cpp" />
+    <ClCompile Include="unit.cpp" />
+    <ClInclude Include="cButton.h" />
     <ClInclude Include="cImageManager.h" />
+    <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cScene.h" />
     <ClInclude Include="cSceneManager.h" />
+    <ClInclude Include="font.h" />
     <ClInclude Include="gameScene.h" />
     <ClInclude Include="mainGame.h" />
     <ClInclude Include="mainScene.h" />
+    <ClInclude Include="randManager.h" />
     <ClInclude Include="readyScene.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="cTransform.h" />
     <ClInclude Include="tiles.h" />
+    <ClInclude Include="unit.h" />
     <None Include="DXUT\Optional\directx.ico" />
     <ClInclude Include="DXUT\Core\DXUT.h" />
     <ClInclude Include="DXUT\Core\DXUTenum.h" />

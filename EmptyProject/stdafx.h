@@ -10,6 +10,10 @@
 #include <algorithm>
 #include <string>
 #include <array>
+#include <random>
+#include <math.h>
+#include <bitset>
+#include <queue>
 
 using namespace std;
 
@@ -22,9 +26,14 @@ using namespace std;
 const int WINSIZEX = 1280;
 const int WINSIZEY = 720;
 
+extern POINT ptMouse;
+
 #define Device DXUTGetD3D9Device()
 
 #include "cTransform.h"
 #include "texture.h"
+#include "font.h"
+#include "cKeyManager.h"
 #include "cSceneManager.h"
 #include "cImageManager.h"
+#include "randManager.h"
