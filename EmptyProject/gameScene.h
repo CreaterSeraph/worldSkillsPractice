@@ -22,6 +22,8 @@ private:
 	shared_ptr<texture> selectArrow;
 	vector<shared_ptr<texture>> vCloud;
 
+	unique_ptr<texture> cloudTexture;
+
 	bool playerTurn;
 	bool gameReady;
 

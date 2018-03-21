@@ -15,7 +15,19 @@ struct unit
 	void Update(double dt);
 };
 
-class Units
+struct Units
 {
 	vector<unit> units;
+
+	bool isLive;
+	POINT position;
+};
+
+class cArmy
+{
+private:
+	vector<Units> vArmy;
+
+	vector<shared_ptr<texture>> image;
+
 };

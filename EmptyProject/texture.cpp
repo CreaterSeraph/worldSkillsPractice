@@ -44,3 +44,11 @@ void texture::Render(LPD3DXSPRITE sprite, const D3DXVECTOR2& pos, const D3DXMATR
 {
 	Render(sprite, pos.x, pos.y, camMatrix);
 }
+
+void texture::Render(LPD3DXSPRITE sprite, DWORD color, const D3DXVECTOR2& pos, const D3DXMATRIX& camMatrix)
+{
+	D3DXMATRIXA16 matT;
+	D3DXMatrixTranslation(&matT, pos.x, pos.y, 0);
+	sprite->SetTransform(&(matT * camMatrix));
+	sprite->Draw(m_texturePtr, nullptr, &m_center, &m_pos, color);
+}

@@ -33,5 +33,5 @@ public:
 	array<tile, 100>& GetTiles() { return m_arrTile; }
 	bool SetTile(POINT startPos, size_t scale, TILE_DIR dir, int objNum);
 	TILE_STATE CheckTile(size_t idx);
-	void HitTile(size_t idx);
+	bool HitTile(size_t idx);
 };

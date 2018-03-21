@@ -31,11 +31,11 @@ bool tiles::SetTile(POINT startPos, size_t scale, TILE_DIR dir, int objNum)
 
 	startPos.x = startPos.x * 2 + startPos.y % 2;
 	if (startPos.x < 0 || startPos.y < 0 || startPos.x >= 20 || startPos.y >= 10) return false;
-	//if (scale > maxSize + 1) return false;
-	if (dir > 6 || dir < 0) return false;
+	if (dir >= 6 || dir < 0) return false;
 
 	POINT ptList[maxSize];
 	ptList[0] = startPos;
+	if (m_arrTile[startPos.x / 2 + startPos.y * 10].objNum) return false;
 	for (int i = 1; i < scale; i++)
 	{
 		startPos.x += *("124542" + dir) - '3';
@@ -61,8 +61,8 @@ TILE_STATE tiles::CheckTile(size_t idx)
 	return m_arrTile[idx].state;
 }
 
-void tiles::HitTile(size_t idx)
+bool tiles::HitTile(size_t idx)
 {
-	if (m_arrTile[idx].state != TS_NORMAL) return;
+	if (m_arrTile[idx].state != TS_NORMAL) return false;
 	m_arrTile[idx].state = TS_EMPTY;
 }

@@ -41,3 +41,6 @@ testConsol/Debug/
 *.psd
 *.db-wal
 *.db-shm
+aiTest/Debug/
+aiTest/Release/
+EmptyProject/Release/

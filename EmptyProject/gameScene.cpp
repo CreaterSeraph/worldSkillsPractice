@@ -36,10 +36,13 @@ void gameScene::Init()
 	selectIdx = -1;
 
 	sideBarPos = D3DXVECTOR2(0, 0);
+
+	cloudTexture = unique_ptr<texture>(new texture("./image/cloud.png"));
 }
 
 void gameScene::Release()
 {
+	cloudTexture.reset();
 }
 
 void gameScene::Update(double dt)
@@ -84,11 +87,15 @@ void gameScene::Update(double dt)
 				selectIdx = idx;
 			else if (selectIdx == idx)
 			{
+				bool result;
 				if(playerTurn)
-					m_enemyTiles->HitTile(selectIdx);
+					result = m_enemyTiles->HitTile(selectIdx);
 				else
-					m_playerTiles->HitTile(selectIdx);
+					result = m_playerTiles->HitTile(selectIdx);
+				
 				selectIdx = -1;
+				if (!result)
+					return;
 
 				playerTurn = playerTurn ? false : true;
 				moveProgress = 0;
@@ -155,7 +162,7 @@ void gameScene::Render(LPD3DXSPRITE sprite)
 			for (int j = 0; j < 10; j++)
 			{
 				D3DXVECTOR2 distance(GetTilePos(j, i) + D3DXVECTOR2(0, m_cam.pos.y - WINSIZEY / 2) - D3DXVECTOR2(ptMouse.x, ptMouse.y + m_cam.pos.y - WINSIZEY / 2));
-
+				
 				if (D3DXVec2Length(&distance) < 100)
 					normalTile->Render(sprite, GetTilePos(j, i) + D3DXVECTOR2(0, m_cam.pos.y - WINSIZEY / 2), GetCamMaxtrix());
 				else if (selectIdx == i * 10 + j)
