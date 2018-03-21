@@ -9,6 +9,7 @@ private:
 	unique_ptr<cButton> btStart;
 
 	shared_ptr<texture> howToPlay;
+	shared_ptr<texture> backGround;
 	bool popUp;
 public:
 	mainScene();

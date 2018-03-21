@@ -39,3 +39,5 @@ mapEditer/x64/
 EmptyProject/Debug/
 testConsol/Debug/
 *.psd
+*.db-wal
+*.db-shm

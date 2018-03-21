@@ -59,6 +59,15 @@ void gameScene::Update(double dt)
 		}
 	}
 
+	if (KEYMANAGER->IsStayKeyDown(VK_UP))
+	{
+		m_cam.scale /= 1 + dt;
+	}
+	if (KEYMANAGER->IsStayKeyDown(VK_DOWN))
+	{
+		m_cam.scale += dt;
+	}
+
 	if (gameReady)
 	{
 		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
@@ -145,7 +154,12 @@ void gameScene::Render(LPD3DXSPRITE sprite)
 		{
 			for (int j = 0; j < 10; j++)
 			{
-				normalTile->Render(sprite, GetTilePos(j, i) + D3DXVECTOR2(0, m_cam.pos.y - WINSIZEY / 2), GetCamMaxtrix());
+				D3DXVECTOR2 distance(GetTilePos(j, i) + D3DXVECTOR2(0, m_cam.pos.y - WINSIZEY / 2) - D3DXVECTOR2(ptMouse.x, ptMouse.y + m_cam.pos.y - WINSIZEY / 2));
+
+				if (D3DXVec2Length(&distance) < 100)
+					normalTile->Render(sprite, GetTilePos(j, i) + D3DXVECTOR2(0, m_cam.pos.y - WINSIZEY / 2), GetCamMaxtrix());
+				else if (selectIdx == i * 10 + j)
+					selectIdx = -1;
 			}
 		}
 		if (selectIdx != -1)
