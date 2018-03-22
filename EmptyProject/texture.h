@@ -37,7 +37,7 @@ struct texture
 	D3DXVECTOR3 m_center;
 	D3DXVECTOR3 m_pos;
 
-	texture(const string& path, const sTextureData& loadData = sTextureData());
+	texture(string_view path, const sTextureData& loadData = sTextureData());
 	~texture();
 
 	void Render(LPD3DXSPRITE sprite, const cTransform& transform, const D3DXMATRIX& camMatrix = GetIdentityMatrix(), const RECT* rc = nullptr);

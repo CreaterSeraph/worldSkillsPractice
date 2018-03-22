@@ -1,17 +1,17 @@
 #include "DXUT.h"
 #include "texture.h"
 
-texture::texture(const string& path, const sTextureData& loadData)
+texture::texture(string_view path, const sTextureData& loadData)
 	:m_center(0, 0, 0), m_pos(0, 0, 0), m_info(), m_texturePtr(nullptr)
 {
 	HRESULT hr;
 
-	hr = D3DXCreateTextureFromFileExA(Device, path.c_str(), D3DX_DEFAULT_NONPOW2, D3DX_DEFAULT_NONPOW2, 0, 0,
-		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, &m_info, nullptr, &m_texturePtr);
+	hr = D3DXCreateTextureFromFileExA(Device, path.data(), D3DX_DEFAULT_NONPOW2, D3DX_DEFAULT_NONPOW2, 0, 0,
+		D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, &m_info, nullptr, &m_texturePtr);
 
 	if (FAILED(hr))
 	{
-		DEBUG_LOG("로딩실패!" << path.c_str());
+		DEBUG_LOG("로딩실패!" << path);
 	}
 
 	m_center.x = m_info.Width * loadData.offset.x;

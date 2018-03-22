@@ -6,6 +6,11 @@ struct CamData
 	double scale;
 	D3DXVECTOR2 pos;
 
+	CamData()
+		:pos(WINSIZEX / 2, WINSIZEY / 2), scale(1)
+	{
+	}
+
 	CamData(const D3DXVECTOR2& pos, double scale = 1)
 		:pos(pos), scale(scale)
 	{

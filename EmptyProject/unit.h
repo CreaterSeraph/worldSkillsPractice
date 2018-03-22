@@ -1,18 +1,12 @@
 #pragma once
 struct unit
 {
-	const size_t maxFrame;
-	size_t frame;
-	double frameTime;
-
-	double maxDelay;
-	double minDelay;
 	D3DXVECTOR2 offset;
 
-	unit(size_t maxFrame, const D3DXVECTOR2& offset, double maxDelay, double minDelay);
+	unit(const D3DXVECTOR2& offset);
 	~unit();
 
-	void Update(double dt);
+	void Render(LPD3DXSPRITE sprite, weak_ptr<texture> renderTexture, const D3DXVECTOR2& pos, double time, const D3DXMATRIX& mat);
 };
 
 struct Units
@@ -21,6 +15,11 @@ struct Units
 
 	bool isLive;
 	POINT position;
+
+	double shakeLen;
+
+	void Render(LPD3DXSPRITE sprite, weak_ptr<texture> renderTexture, double time, const D3DXMATRIX& mat);
+	Units();
 };
 
 class cArmy
@@ -28,6 +27,9 @@ class cArmy
 private:
 	vector<Units> vArmy;
 
-	vector<shared_ptr<texture>> image;
+	shared_ptr<texture> image;
 
+	D3DXVECTOR2 startPos;
+public:
+	void Render(LPD3DXSPRITE sprite, double time, const D3DXMATRIX& mat);
 };

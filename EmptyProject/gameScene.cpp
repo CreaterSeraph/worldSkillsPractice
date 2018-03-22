@@ -4,8 +4,10 @@
 #include "tiles.h"
 
 gameScene::gameScene()
+	:camAction(this->m_cam)
 {
-	background = IMAGEMANAGER->AddTexture("./image/map.png", sTextureData(D3DXVECTOR2(0, 0)));
+	background = IMAGEMANAGER->AddTexture("./image/map_sea.png", sTextureData(D3DXVECTOR2(0, 0)));
+	backgroundIsland = IMAGEMANAGER->AddTexture("image/map_land.png", sTextureData(D3DXVECTOR2(0, 0)));
 	sideBarUI = IMAGEMANAGER->AddTexture("./image/sideLine.png", sTextureData(D3DXVECTOR2(0, 0)));
 	topBarUI = IMAGEMANAGER->AddTexture("./image/topLine.png", sTextureData(D3DXVECTOR2(0, 0)));
 	itemBarUI = IMAGEMANAGER->AddTexture("./image/ui_item_bar.png", sTextureData(D3DXVECTOR2(0, 0)));
@@ -15,7 +17,26 @@ gameScene::gameScene()
 	selectTile = IMAGEMANAGER->AddTexture("./image/map_select_floor_tile.png");
 	selectArrow = IMAGEMANAGER->AddTexture("./image/map_select_arrow.png");
 
-	vCloud.push_back(shared_ptr<texture>(IMAGEMANAGER->AddTexture("./image/map_cloud.png")));
+	vCloud.push_back(IMAGEMANAGER->AddTexture("./image/map_cloud.png"));
+
+	for (int i = 0; i < 32; i++)
+	{
+		char str[128];
+		sprintf(str, "./image/water/caust%02d.dds", i);
+		auto result = water.emplace_back(IMAGEMANAGER->AddTexture(str, sTextureData(D3DXVECTOR2(0, 0))));
+
+		D3DLOCKED_RECT rc;
+		result->m_texturePtr->LockRect(0, &rc, nullptr, D3DLOCK_DISCARD);
+
+		auto color = (DWORD*)rc.pBits;
+		for (int j = 0; j < result->m_info.Width * result->m_info.Height; j++)
+		{
+			auto temp = (color[j] & 0x000000ff) / 2;
+			color[j] = 0x01000000 * temp + 0x00ffffff;
+		}
+
+		result->m_texturePtr->UnlockRect(0);
+	}
 }
 
 
@@ -27,39 +48,39 @@ void gameScene::Init()
 {
 	playerTurn = true;
 	gameReady = false;
+	selectIdx = -1;
 
 	camStartPos.y = 2000 - WINSIZEY / 2;
 	camStartPos.x = WINSIZEX / 2;
 	camEndPos.y = 90 + WINSIZEY / 2;
 	camEndPos.x = WINSIZEX / 2;
-	moveProgress = 1;
-	selectIdx = -1;
+
+	m_cam.pos = (camStartPos + camEndPos) / 2;
+
+	auto func = [](float t, const CamData& start, const CamData& end)->CamData
+	{
+		CamData result;
+
+		D3DXVec2Lerp(&result.pos, &start.pos, &end.pos, pow(1 - t, 3));
+
+		return result;
+	};
+	camAction.AddAction(func, 1, camEndPos);
+	swap(camEndPos, camStartPos);
 
 	sideBarPos = D3DXVECTOR2(0, 0);
-
-	cloudTexture = unique_ptr<texture>(new texture("./image/cloud.png"));
 }
 
 void gameScene::Release()
 {
-	cloudTexture.reset();
 }
 
 void gameScene::Update(double dt)
 {
-	if (moveProgress)
+	waterFrame = (int)(DXUTGetTime() * 30) % 32;
+	if (!camAction.Update(dt))
 	{
-		D3DXVec2Lerp(&m_cam.pos, &camStartPos, &camEndPos, pow(moveProgress.value(), 3));
-
-		moveProgress.value() += dt;
-		if (moveProgress.value() > 1)
-		{
-			gameReady = true;
-			moveProgress.reset();
-
-			m_cam.pos = camEndPos;
-			swap(camEndPos, camStartPos);
-		}
+		gameReady = true;
 	}
 
 	if (KEYMANAGER->IsStayKeyDown(VK_UP))
@@ -75,10 +96,7 @@ void gameScene::Update(double dt)
 	{
 		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 		{
-			playerTurn = playerTurn ? false : true;
-			moveProgress = 0;
-			gameReady = false;
-			selectIdx = -1;
+			MoveCamToOtherPlayer();
 		}
 		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 		{
@@ -97,10 +115,7 @@ void gameScene::Update(double dt)
 				if (!result)
 					return;
 
-				playerTurn = playerTurn ? false : true;
-				moveProgress = 0;
-				gameReady = false;
-				selectIdx = -1;
+				MoveCamToOtherPlayer();
 			}
 			else
 				selectIdx = idx;
@@ -143,9 +158,36 @@ D3DXVECTOR2 gameScene::GetTilePos(int x, int y)
 	return D3DXVECTOR2(300 + x * 72 + ((y + 1) % 2) * 36, 130 + y * 61);
 }
 
+void gameScene::MoveCamToOtherPlayer()
+{
+	auto func = [](float t, const CamData& start, const CamData& end)->CamData
+	{
+		CamData result;
+
+		D3DXVec2Lerp(&result.pos, &start.pos, &end.pos, pow(1 - t, 3));
+
+		return result;
+	};
+	camAction.AddAction(func, 1, camEndPos);
+
+	playerTurn = playerTurn ? false : true;
+	gameReady = false;
+	selectIdx = -1;
+	swap(camEndPos, camStartPos);
+}
+
 void gameScene::Render(LPD3DXSPRITE sprite)
 {
 	background->Render(sprite, 0, 0, GetCamMaxtrix());
+
+	DEBUG_LOG(waterFrame);
+	for (int i = 0; i < 2000; i += 64)
+	{
+		for (int j = 0; j < WINSIZEX; j += 64)
+			water[waterFrame]->Render(sprite, j, i, GetCamMaxtrix());
+	}
+
+	backgroundIsland->Render(sprite, 0, 0, GetCamMaxtrix());
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -189,4 +231,50 @@ void gameScene::SetTilesData(unique_ptr<tiles>& playerTile, unique_ptr<tiles>& e
 {
 	m_playerTiles = std::move(playerTile);
 	m_enemyTiles = std::move(enemyTile);
+}
+
+CamAction::CamAction(function<CamData(float, const CamData&, const CamData&)> func, float time, const CamData& endPos, CamData& nowPos)
+	:func(func), maxTime(time), nowTime(time), endPos(endPos), startPos(), nowPos(nowPos)
+{
+}
+
+bool CamAction::Update(double dt)
+{
+	nowTime -= dt;
+	if (nowTime < 0)
+	{
+		nowPos = endPos;
+		return false;
+	}
+	nowPos = func(nowTime / maxTime, startPos, endPos);
+	return true;
+}
+
+void CamAction::SetStartPos(const CamData& camData)
+{
+	startPos = camData;
+}
+
+CamActionAdmin::CamActionAdmin(CamData& nowPos)
+	:nowPos(nowPos)
+{
+}
+
+bool CamActionAdmin::Update(double dt)
+{
+	if (actionQueue.empty()) return false;
+	
+	if (actionQueue.front().Update(dt)) return true;
+
+	actionQueue.pop();
+	if (actionQueue.empty()) return true;
+
+	actionQueue.front().SetStartPos(nowPos);
+	return true;
+}
+
+void CamActionAdmin::AddAction(function<CamData(float, const CamData&, const CamData&)> func, float time, const CamData& endPos)
+{
+	actionQueue.push(CamAction(func, time, endPos, nowPos));
+	actionQueue.back().SetStartPos(nowPos);
 }

@@ -14,7 +14,7 @@ D3DXMATRIX cScene::GetCamMaxtrix()
 }
 
 cScene::cScene()
-	:m_cam(D3DXVECTOR2(WINSIZEX / 2, WINSIZEY / 2), 1)
+	:m_cam()
 {
 }
 

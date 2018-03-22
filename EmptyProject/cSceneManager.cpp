@@ -46,8 +46,9 @@ weak_ptr<cScene> cSceneManager::AddScene(const string& key, shared_ptr<cScene> s
 	auto find = m_sceneMap.find(key);
 	if (find != m_sceneMap.end()) return weak_ptr<cScene>();
 
-	auto& result = m_sceneMap.insert(make_pair(key, scene));
-	return weak_ptr<cScene>((*result.first).second);
+	auto& [insertPos, value] = m_sceneMap.insert(make_pair(key, scene));
+	//auto& result = m_sceneMap.insert(make_pair(key, scene));
+	return weak_ptr<cScene>((*insertPos).second);
 }
 
 weak_ptr<cScene> cSceneManager::ChangeScene(const string& key)
@@ -59,7 +60,7 @@ weak_ptr<cScene> cSceneManager::ChangeScene(const string& key)
 	return nextScene;
 }
 
-weak_ptr<cScene> cSceneManager::FindScene(const string & key)
+weak_ptr<cScene> cSceneManager::FindScene(const string& key)
 {
 	auto& find = m_sceneMap.find(key);
 	if (find == m_sceneMap.end()) return weak_ptr<cScene>();
