@@ -31,11 +31,15 @@ public:
 };
 
 class tiles;
+class cArmy;
 class gameScene : public cScene
 {
 private:
 	unique_ptr<tiles> m_playerTiles;
 	unique_ptr<tiles> m_enemyTiles;
+
+	vector<cArmy> m_playerArmy;
+	vector<cArmy> m_enemyAarmy;
 
 	shared_ptr<texture> background;
 	shared_ptr<texture> backgroundIsland;
@@ -51,8 +55,9 @@ private:
 	shared_ptr<texture> selectTile;
 	shared_ptr<texture> selectArrow;
 	vector<shared_ptr<texture>> vCloud;
+	shared_ptr<texture> vMovingCloud[3];
 
-	//unique_ptr<texture> cloudTexture;
+	vector<D3DXVECTOR2> vMovingCloudePos[3];
 
 	CamActionAdmin camAction;
 
@@ -67,11 +72,12 @@ private:
 	vector<shared_ptr<texture>> water;
 	int waterFrame;
 private:
-	int SelectPos();
 	void MoveCamToOtherPlayer();
 public:
+	static POINT SelectPos();
 	static D3DXVECTOR2 GetTilePos(size_t idx);
 	static D3DXVECTOR2 GetTilePos(int x, int y);
+	static int GetIdx(const POINT& pt);
 public:
 	gameScene();
 	~gameScene();
@@ -81,6 +87,6 @@ public:
 	virtual void Update(double dt) override;
 	virtual void Render(LPD3DXSPRITE sprite) override;
 
-	void SetTilesData(unique_ptr<tiles>& playerTile, unique_ptr<tiles>& enemyTile);
+	void SetTilesData(unique_ptr<tiles>& playerTile, unique_ptr<tiles>& enemyTile, vector<cArmy>& playerArmy, vector<cArmy>& enemyArmy);
 };
 

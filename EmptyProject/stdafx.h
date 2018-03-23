@@ -17,6 +17,7 @@
 #include <cmath>
 #include <string_view>
 #include <filesystem>
+#include <stack>
 
 using namespace std;
 

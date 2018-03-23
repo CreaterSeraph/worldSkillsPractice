@@ -23,7 +23,7 @@ class cScene abstract
 protected:
 	CamData m_cam;
 
-	D3DXMATRIX GetCamMaxtrix();
+	D3DXMATRIX GetCamMatrix();
 public:
 	cScene();
 	virtual ~cScene();

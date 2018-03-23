@@ -12,9 +12,9 @@ public:
 	cSceneManager();
 	~cSceneManager();
 
-	weak_ptr<cScene> AddScene(const string& key, shared_ptr<cScene> scene);
-	weak_ptr<cScene> ChangeScene(const string& key);
-	weak_ptr<cScene> FindScene(const string& key);
+	weak_ptr<cScene> AddScene(string_view key, shared_ptr<cScene> scene);
+	weak_ptr<cScene> ChangeScene(string_view key);
+	weak_ptr<cScene> FindScene(string_view key);
 	
 	void Release();
 	void Update(double dt);

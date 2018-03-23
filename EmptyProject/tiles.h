@@ -10,7 +10,7 @@ struct tile
 	tile();
 	~tile();
 
-	int objNum;//깔린 오브젝트 번호라던가...
+	bool isTile;
 	int item;//현재 받고있는 아이템 효과
 	TILE_STATE state;
 };
@@ -31,7 +31,8 @@ public:
 	~tiles();
 
 	array<tile, 100>& GetTiles() { return m_arrTile; }
-	bool SetTile(POINT startPos, size_t scale, TILE_DIR dir, int objNum);
+	bool SetTile(POINT startPos, size_t scale, TILE_DIR dir);
+	pair<bool, vector<POINT>> IsSetInTile(POINT pt, size_t scale, TILE_DIR dir);
 	TILE_STATE CheckTile(size_t idx);
 	bool HitTile(size_t idx);
 };

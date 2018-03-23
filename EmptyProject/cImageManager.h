@@ -9,8 +9,8 @@ public:
 	cImageManager();
 	~cImageManager();
 
-	shared_ptr<texture> FindTexture(const string& path);
-	shared_ptr<texture> AddTexture(const string& path, const sTextureData& data = sTextureData());
+	shared_ptr<texture> FindTexture(string_view path);
+	shared_ptr<texture> AddTexture(string_view path, const sTextureData& data = sTextureData());
 };
 
 #define IMAGEMANAGER cImageManager::Get()

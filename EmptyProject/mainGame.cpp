@@ -22,6 +22,18 @@ void mainGame::Init()
 	auto castedGameScene = static_pointer_cast<gameScene>(ingame.lock());
 	SCENEMANAGER->AddScene("ready", shared_ptr<cScene>(new readyScene(castedGameScene)));
 	SCENEMANAGER->ChangeScene("main");
+
+START:
+	//이곳에서 어떤 코드를 작동시킴
+	if(true/*goto가 작동할 조건*/)
+		goto START;
+
+	while (true)
+	{
+		//이곳에서 어떤 코드를 작동시킴
+		if (false/*goto가 작동하지 않는 조건*/)
+			break;
+	}
 }
 
 void mainGame::Release()

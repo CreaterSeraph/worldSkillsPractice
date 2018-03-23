@@ -41,9 +41,9 @@ void cSceneManager::Render(LPD3DXSPRITE sprite)
 		nowScene.lock()->Render(sprite);
 }
 
-weak_ptr<cScene> cSceneManager::AddScene(const string& key, shared_ptr<cScene> scene)
+weak_ptr<cScene> cSceneManager::AddScene(string_view key, shared_ptr<cScene> scene)
 {
-	auto find = m_sceneMap.find(key);
+	auto find = m_sceneMap.find(key.data());
 	if (find != m_sceneMap.end()) return weak_ptr<cScene>();
 
 	auto& [insertPos, value] = m_sceneMap.insert(make_pair(key, scene));
@@ -51,18 +51,18 @@ weak_ptr<cScene> cSceneManager::AddScene(const string& key, shared_ptr<cScene> s
 	return weak_ptr<cScene>((*insertPos).second);
 }
 
-weak_ptr<cScene> cSceneManager::ChangeScene(const string& key)
+weak_ptr<cScene> cSceneManager::ChangeScene(string_view key)
 {
-	auto& find = m_sceneMap.find(key);
+	auto& find = m_sceneMap.find(key.data());
 	if (find == m_sceneMap.end()) return weak_ptr<cScene>();
 
 	nextScene = find->second;
 	return nextScene;
 }
 
-weak_ptr<cScene> cSceneManager::FindScene(const string& key)
+weak_ptr<cScene> cSceneManager::FindScene(string_view key)
 {
-	auto& find = m_sceneMap.find(key);
+	auto& find = m_sceneMap.find(key.data());
 	if (find == m_sceneMap.end()) return weak_ptr<cScene>();
 
 	return find->second;
