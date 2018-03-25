@@ -43,6 +43,9 @@ private:
 	bool rightSelect;
 
 	bool settingEnd;
+private:
+	void EnemySetting();
+	POINT AddPt(const POINT& pt1, const POINT& pt2);
 public:
 	readyScene(weak_ptr<gameScene> ingame);
 	~readyScene();

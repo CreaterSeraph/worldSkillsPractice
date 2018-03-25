@@ -30,7 +30,7 @@ readyScene::readyScene(weak_ptr<gameScene> ingame)
 		result->m_texturePtr->LockRect(0, &rc, nullptr, D3DLOCK_DISCARD);
 
 		auto color = (DWORD*)rc.pBits;
-		for (int j = 0; j < result->m_info.Width * result->m_info.Height; j++)
+		for (size_t j = 0; j < result->m_info.Width * result->m_info.Height; j++)
 		{
 			auto temp = (color[j] & 0x000000ff) / 2;
 			color[j] = 0x01000000 * temp + 0x00ffffff;
@@ -39,14 +39,14 @@ readyScene::readyScene(weak_ptr<gameScene> ingame)
 		result->m_texturePtr->UnlockRect(0);
 	}
 
-	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_1.png")));
-	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_2.png")));
-	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_3.png")));
-	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_4.png")));
-	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_5.png")));
-	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_6.png")));
-	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_7.png")));
-	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_8.png")));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_1.png"), nullptr));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_2.png"), nullptr));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_3.png"), nullptr));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_4.png"), nullptr));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_5.png"), nullptr));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_6.png"), nullptr));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_7.png"), nullptr));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_8.png"), nullptr));
 }
 
 
@@ -76,8 +76,75 @@ void readyScene::Init()
 	selectList.clear();
 }
 
+void readyScene::EnemySetting()
+{
+	vector<POINT> ptList[5] =
+	{
+		{ { -2, 0 },{ -1, 1 },{ 1, 1 },{ 2, 0 } },//boss
+		{ { -1, -1 },{ -2, 0 },{ 2, 0 },{ 1, -1 } },//kingCrap
+		{ { 0, 0 },{ 2, 0 } },//crap
+		{ { 0, 0 },{ 2, 0 } },//crap
+		{ { 0, 0 },{ -1, 1 },{ 1, 1 } }//snake
+	};
+
+	Units enemyUnitList[5] =
+	{
+		Units(nullptr, IMAGEMANAGER->AddTexture("./image/monster/boss_kingkong.png")),
+		Units(nullptr, IMAGEMANAGER->AddTexture("./image/monster/kingcrap.png")),
+		Units(nullptr, IMAGEMANAGER->AddTexture("./image/monster/crap.png")),
+		Units(nullptr, IMAGEMANAGER->AddTexture("./image/monster/crap.png")),
+		Units(nullptr, IMAGEMANAGER->AddTexture("./image/monster/sea_snake.png"))
+	};
+
+	m_enemyArmy.assign(5, cArmy(D3DXVECTOR2(0, 90)));
+
+	for (int i = 0; i < 5; )
+	{
+		ReStart:
+		POINT pt = { RAND->Rand(0, 9), RAND->Rand(0, 9) };
+
+		pt.x = pt.x * 2 + (unsigned)pt.y % 2;
+
+		vector<POINT> ptListTemp;
+		ptListTemp.resize(ptList[i].size());
+		for (size_t j = 0; j < ptList[i].size(); j++)
+		{
+			POINT temp;
+			temp = AddPt(pt, ptList[i][j]);
+			if (temp.x < 0 || temp.y < 0 || temp.x >= 20 || temp.y >= 10) goto ReStart;
+			if (m_enemyTiles->GetTiles()[temp.x / 2 + temp.y * 10].isTile) goto ReStart;
+
+			ptListTemp[j] = temp;
+		}
+
+		for (size_t j = 0; j < ptList[i].size(); j++)
+		{
+			POINT& ptTemp = ptListTemp[j];
+			if (ptTemp.x < 0)
+				ptTemp.x -= 1;
+			ptTemp.x /= 2;
+		}
+		pt.x /= 2;
+		m_enemyTiles->SetTile(ptListTemp);
+		for (auto iter : ptListTemp)
+			DEBUG_LOG(iter.x << "\t" << iter.y);
+
+		enemyUnitList[i].InitPos(ptListTemp, pt);
+		m_enemyArmy[i].AddUnit(enemyUnitList[i]);
+
+		i++;
+	}
+}
+
+POINT readyScene::AddPt(const POINT& pt1, const POINT& pt2)
+{
+	return { pt1.x + pt2.x, pt1.y + pt2.y };
+}
+
 void readyScene::Release()
 {
+	EnemySetting();
+
 	ingame.lock()->SetTilesData(this->m_playerTiles, this->m_enemyTiles, this->m_playerArmy, this->m_enemyArmy);
 }
 
@@ -110,7 +177,7 @@ void readyScene::Update(double dt)
 			}
 
 			m_objs[selectShip].first = false;
-			for (int i = 0; i < m_objs.size(); i++)
+			for (size_t i = 0; i < m_objs.size(); i++)
 			{
 				if (m_objs[i].first)
 				{

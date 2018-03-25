@@ -10,6 +10,7 @@ private:
 
 	shared_ptr<texture> howToPlay;
 	shared_ptr<texture> backGround;
+	shared_ptr<texture> backGroundani;
 	bool popUp;
 public:
 	mainScene();

@@ -2,8 +2,8 @@
 #include "unit.h"
 #include "gameScene.h"
 
-Units::Units(shared_ptr<texture> image)
-	:image(image)
+Units::Units(shared_ptr<texture> image, shared_ptr<texture> deathImage)
+	:image(image), deathImage(deathImage)
 {
 }
 
@@ -20,7 +20,30 @@ void Units::ResetPos()
 
 void Units::Render(LPD3DXSPRITE sprite, const D3DXVECTOR2& pos, double time, const D3DXMATRIX& mat)
 {
-	image->Render(sprite, gameScene::GetTilePos(renderPos.x, renderPos.y) + pos, mat);
+	if (ptList.empty())
+	{
+		if(deathImage)
+			deathImage->Render(sprite, gameScene::GetTilePos(renderPos.x, renderPos.y) + pos, mat);
+	}
+	else
+	{
+		if(image)
+			image->Render(sprite, gameScene::GetTilePos(renderPos.x, renderPos.y) + pos, mat);
+	}
+}
+
+bool Units::Hit(const POINT& pt)
+{
+	for (int i = 0; i < ptList.size(); i++)
+	{
+		auto iter = ptList[i];
+		if (iter.x == pt.x && iter.y == pt.y)
+		{
+			ptList.erase(ptList.begin() + i);
+			return true;
+		}
+	}
+	return false;
 }
 
 cArmy::cArmy(const D3DXVECTOR2& pos)
@@ -43,4 +66,15 @@ void cArmy::Render(LPD3DXSPRITE sprite, double time, const D3DXMATRIX& mat)
 void cArmy::AddUnit(const Units& unit)
 {
 	vArmy.push_back(unit);
+}
+
+bool cArmy::Hit(const POINT& pt)
+{
+	for (auto& iter : vArmy)
+	{
+		if (iter.Hit(pt))
+			return true;
+	}
+	
+	return false;
 }

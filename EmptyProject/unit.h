@@ -2,7 +2,7 @@
 
 struct Units
 {
-	Units(shared_ptr<texture> image);
+	Units(shared_ptr<texture> image, shared_ptr<texture> deathImage);
 
 	void InitPos(const vector<POINT>& ptList, const POINT& renderPos);
 	void ResetPos();
@@ -11,8 +11,10 @@ struct Units
 	POINT renderPos;
 
 	shared_ptr<texture> image;
+	shared_ptr<texture> deathImage;
 
 	void Render(LPD3DXSPRITE sprite, const D3DXVECTOR2& pos, double time, const D3DXMATRIX& mat);
+	bool Hit(const POINT& pt);
 };
 
 class cArmy
@@ -27,4 +29,6 @@ public:
 	void Render(LPD3DXSPRITE sprite, double time, const D3DXMATRIX& mat);
 	void AddUnit(const Units& unit);
 	bool Hit(const POINT& pt);
+
+	const vector<Units>& GetArmy() { return vArmy; }
 };

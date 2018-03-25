@@ -79,7 +79,7 @@ void gameScene::Update(double dt)
 
 	for (int i = 0; i < 3; i++)
 	{
-		for (int j = 0;j<vMovingCloudePos[i].size();j++)
+		for (size_t j = 0; j < vMovingCloudePos[i].size(); j++)
 		{
 			auto& iter = vMovingCloudePos[i][j];
 			iter.x += (75 + 25 * i) * dt;
@@ -109,16 +109,24 @@ void gameScene::Update(double dt)
 		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 		{
 			POINT pt = SelectPos();
-			size_t idx = GetIdx(pt);
+			int idx = GetIdx(pt);
 			if (selectIdx == -1)
 				selectIdx = idx;
 			else if (selectIdx == idx)
 			{
 				bool result;
-				if(playerTurn)
+				if (playerTurn)
+				{
 					result = m_enemyTiles->HitTile(selectIdx);
+					for (auto& iter : m_enemyArmy)
+						iter.Hit(pt);
+				}
 				else
+				{
 					result = m_playerTiles->HitTile(selectIdx);
+					for (auto& iter : m_playerArmy)
+						iter.Hit(pt);
+				}
 				
 				selectIdx = -1;
 				if (result)
@@ -219,6 +227,12 @@ void gameScene::Render(LPD3DXSPRITE sprite)
 	for (auto iter : m_enemyArmy)
 	{
 		iter.Render(sprite, time, GetCamMatrix());
+
+		//for (auto iter2 : iter.GetArmy())
+		//{
+		//	for(auto iter3 : iter2.ptList)
+		//		selectTile->Render(sprite, GetTilePos(iter3.x, iter3.y) + D3DXVECTOR2(0, m_cam.pos.y - WINSIZEY / 2), GetCamMatrix());
+		//}
 	}
 
 	for (int i = 0; i < 10; i++)
