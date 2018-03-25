@@ -208,10 +208,14 @@ void gameScene::Render(LPD3DXSPRITE sprite)
 {
 	background->Render(sprite, 0, 0, GetCamMatrix());
 
+	int waterAlpha = 200 * pow(m_cam.scale, 3) + 55;
+	if (waterAlpha > 200 + 55)
+		waterAlpha = 200 + 55;
+
 	for (int i = 0; i < 2000; i += 64)
 	{
 		for (int j = 0; j < WINSIZEX; j += 64)
-			water[waterFrame]->Render(sprite, j, i, GetCamMatrix());
+			water[waterFrame]->Render(sprite, D3DCOLOR_ARGB(waterAlpha, 255, 255, 255), D3DXVECTOR2(j, i), GetCamMatrix());
 	}
 
 	backgroundIsland->Render(sprite, 0, 0, GetCamMatrix());
@@ -222,7 +226,7 @@ void gameScene::Render(LPD3DXSPRITE sprite)
 		iter.Render(sprite, time, GetCamMatrix());
 	}
 
-	for (auto iter : m_enemyAarmy)
+	for (auto iter : m_enemyArmy)
 	{
 		iter.Render(sprite, time, GetCamMatrix());
 	}
@@ -236,11 +240,15 @@ void gameScene::Render(LPD3DXSPRITE sprite)
 		}
 	}
 
+	int cloudeAlpha = 200 / pow(m_cam.scale, 2);
+	if (cloudeAlpha > 255)
+		cloudeAlpha = 255;
+
 	for (int i = 0; i < 3; i++)
 	{
 		for (auto iter : vMovingCloudePos[i])
 		{
-			vMovingCloud[i]->Render(sprite, iter, GetCamMatrix());
+			vMovingCloud[i]->Render(sprite, D3DCOLOR_ARGB(cloudeAlpha, 255, 255, 255), iter, GetCamMatrix());
 		}
 	}
 
@@ -279,7 +287,7 @@ void gameScene::SetTilesData(unique_ptr<tiles>& playerTile, unique_ptr<tiles>& e
 	m_playerTiles = std::move(playerTile);
 	m_enemyTiles = std::move(enemyTile);
 	m_playerArmy = std::move(playerArmy);
-	m_enemyAarmy = std::move(enemyArmy);
+	m_enemyArmy = std::move(enemyArmy);
 }
 
 CamAction::CamAction(function<CamData(float, const CamData&, const CamData&)> func, float time, const CamData& endPos, CamData& nowPos)

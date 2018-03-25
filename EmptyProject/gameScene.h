@@ -39,7 +39,7 @@ private:
 	unique_ptr<tiles> m_enemyTiles;
 
 	vector<cArmy> m_playerArmy;
-	vector<cArmy> m_enemyAarmy;
+	vector<cArmy> m_enemyArmy;
 
 	shared_ptr<texture> background;
 	shared_ptr<texture> backgroundIsland;

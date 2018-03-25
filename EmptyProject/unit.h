@@ -1,25 +1,13 @@
 #pragma once
-struct unit
-{
-	D3DXVECTOR2 offset;
-
-	unit(const D3DXVECTOR2& offset);
-	~unit();
-
-	void Render(LPD3DXSPRITE sprite, weak_ptr<texture> renderTexture, const D3DXVECTOR2& pos, double time, const D3DXMATRIX& mat);
-};
 
 struct Units
 {
-	vector<unit> units;
+	Units(vector<POINT>&& ptList, const POINT& renderPos);
 
-	bool isLive;
-	POINT position;
-
-	double shakeLen;
+	vector<POINT> ptList;
+	POINT renderPos;
 
 	void Render(LPD3DXSPRITE sprite, weak_ptr<texture> renderTexture, const D3DXVECTOR2& pos, double time, const D3DXMATRIX& mat);
-	Units(const POINT& pt);
 };
 
 class cArmy

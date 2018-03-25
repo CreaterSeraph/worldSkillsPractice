@@ -57,6 +57,12 @@ bool tiles::SetTile(POINT startPos, size_t scale, TILE_DIR dir)
 	return true;
 }
 
+void tiles::SetTile(vector<POINT> tileList, bool isTile)
+{
+	for (auto iter : tileList)
+		m_arrTile[GetIdx(iter)].isTile = isTile;
+}
+
 pair<bool, vector<POINT>> tiles::IsSetInTile(POINT pt, size_t scale, TILE_DIR dir)
 {
 	bool result = true;

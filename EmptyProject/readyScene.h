@@ -10,21 +10,23 @@ private:
 	unique_ptr<tiles> m_enemyTiles;
 
 	vector<cArmy> m_playerArmy;
-	vector<cArmy> m_enemyAarmy;
+	vector<cArmy> m_enemyArmy;
 
 	weak_ptr<gameScene> ingame;
 
 	shared_ptr<texture> normalTile;
 	shared_ptr<texture> selectTile;
+	shared_ptr<texture> rightTile;
 
-	vector<pair<bool, size_t>> m_objs[2];
+	vector<pair<bool, size_t>> m_objs;
 
 	//pos, dir, sizeIdx
-	stack<tuple<int, int, int>> selectList;
+	vector<vector<POINT>> selectList;
 	POINT nowPos;
 	int nowDir;
 	int selectShip;
 	vector<POINT> maybeList;
+	bool rightSelect;
 
 	bool settingEnd;
 public:

@@ -32,6 +32,7 @@ public:
 
 	array<tile, 100>& GetTiles() { return m_arrTile; }
 	bool SetTile(POINT startPos, size_t scale, TILE_DIR dir);
+	void SetTile(vector<POINT> tileList, bool isTile = true);
 	pair<bool, vector<POINT>> IsSetInTile(POINT pt, size_t scale, TILE_DIR dir);
 	TILE_STATE CheckTile(size_t idx);
 	bool HitTile(size_t idx);
