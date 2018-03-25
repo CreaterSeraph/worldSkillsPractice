@@ -47,9 +47,9 @@ private:
 	shared_ptr<texture> topBarUI;
 	shared_ptr<texture> sideBarUI;
 	shared_ptr<texture> itemBarUI;
+	shared_ptr<texture> timeBarUI;
 	D3DXVECTOR2 sideBarPos;
 
-	shared_ptr<texture> timeBarUI;
 
 	shared_ptr<texture> normalTile;
 	shared_ptr<texture> selectTile;

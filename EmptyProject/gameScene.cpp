@@ -29,18 +29,6 @@ gameScene::gameScene()
 		char str[128];
 		sprintf(str, "./image/water/caust%02d.dds", i);
 		auto result = water.emplace_back(IMAGEMANAGER->AddTexture(str, sTextureData(D3DXVECTOR2(0, 0))));
-
-		D3DLOCKED_RECT rc;
-		result->m_texturePtr->LockRect(0, &rc, nullptr, D3DLOCK_DISCARD);
-
-		auto color = (DWORD*)rc.pBits;
-		for (int j = 0; j < result->m_info.Width * result->m_info.Height; j++)
-		{
-			auto temp = (color[j] & 0x000000ff) / 2;
-			color[j] = 0x01000000 * temp + 0x00ffffff;
-		}
-
-		result->m_texturePtr->UnlockRect(0);
 	}
 }
 
@@ -60,13 +48,14 @@ void gameScene::Init()
 	camEndPos.y = 90 + WINSIZEY / 2;
 	camEndPos.x = WINSIZEX / 2;
 
-	m_cam.pos = (camStartPos + camEndPos) / 2;
+	m_cam.pos = camStartPos;
 
 	auto func = [](float t, const CamData& start, const CamData& end)->CamData
 	{
 		CamData result;
 
 		D3DXVec2Lerp(&result.pos, &start.pos, &end.pos, pow(1 - t, 3));
+		result.scale = start.scale + t * (end.scale - start.scale);
 
 		return result;
 	};
@@ -193,6 +182,7 @@ void gameScene::MoveCamToOtherPlayer()
 		CamData result;
 
 		D3DXVec2Lerp(&result.pos, &start.pos, &end.pos, pow(1 - t, 3));
+		result.scale = start.scale + pow(1 - t, 8) * (end.scale - start.scale);
 
 		return result;
 	};

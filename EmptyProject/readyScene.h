@@ -3,6 +3,7 @@
 class tiles;
 class gameScene;
 class cArmy;
+struct Units;
 class readyScene : public cScene
 {
 private:
@@ -12,11 +13,24 @@ private:
 	vector<cArmy> m_playerArmy;
 	vector<cArmy> m_enemyArmy;
 
+	vector<Units> m_playerObjs;
+
 	weak_ptr<gameScene> ingame;
 
 	shared_ptr<texture> normalTile;
 	shared_ptr<texture> selectTile;
 	shared_ptr<texture> rightTile;
+
+	shared_ptr<texture> background;
+	shared_ptr<texture> backgroundIsland;
+
+	shared_ptr<texture> topBarUI;
+	shared_ptr<texture> sideBarUI;
+	shared_ptr<texture> itemBarUI;
+	shared_ptr<texture> timeBarUI;
+
+	vector<shared_ptr<texture>> water;
+	int waterFrame;
 
 	vector<pair<bool, size_t>> m_objs;
 

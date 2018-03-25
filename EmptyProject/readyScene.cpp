@@ -12,6 +12,41 @@ readyScene::readyScene(weak_ptr<gameScene> ingame)
 	normalTile = IMAGEMANAGER->AddTexture("./image/map_floor_tile.png");
 	selectTile = IMAGEMANAGER->AddTexture("./image/map_select_floor_tile.png");
 	rightTile = IMAGEMANAGER->AddTexture("./image/map_floor_current.png");
+
+	background = IMAGEMANAGER->AddTexture("./image/map_sea.png", sTextureData(D3DXVECTOR2(0, 0)));
+	backgroundIsland = IMAGEMANAGER->AddTexture("image/map_land.png", sTextureData(D3DXVECTOR2(0, 0)));
+	sideBarUI = IMAGEMANAGER->AddTexture("./image/sideLine.png", sTextureData(D3DXVECTOR2(0, 0)));
+	topBarUI = IMAGEMANAGER->AddTexture("./image/topLine.png", sTextureData(D3DXVECTOR2(0, 0)));
+	itemBarUI = IMAGEMANAGER->AddTexture("./image/ui_item_bar.png", sTextureData(D3DXVECTOR2(0, 0)));
+	timeBarUI = IMAGEMANAGER->AddTexture("./image/ui_time_bar.png", sTextureData(D3DXVECTOR2(0.5, 0)));
+
+	for (int i = 0; i < 32; i++)
+	{
+		char str[128];
+		sprintf(str, "./image/water/caust%02d.dds", i);
+		auto result = water.emplace_back(IMAGEMANAGER->AddTexture(str, sTextureData(D3DXVECTOR2(0, 0))));
+
+		D3DLOCKED_RECT rc;
+		result->m_texturePtr->LockRect(0, &rc, nullptr, D3DLOCK_DISCARD);
+
+		auto color = (DWORD*)rc.pBits;
+		for (int j = 0; j < result->m_info.Width * result->m_info.Height; j++)
+		{
+			auto temp = (color[j] & 0x000000ff) / 2;
+			color[j] = 0x01000000 * temp + 0x00ffffff;
+		}
+
+		result->m_texturePtr->UnlockRect(0);
+	}
+
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_1.png")));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_2.png")));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_3.png")));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_4.png")));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_5.png")));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_6.png")));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_7.png")));
+	m_playerObjs.push_back(Units(IMAGEMANAGER->AddTexture("./image/ship/player_8.png")));
 }
 
 
@@ -25,8 +60,6 @@ void readyScene::Init()
 	m_playerTiles = unique_ptr<tiles>(new tiles());
 	m_enemyTiles = unique_ptr<tiles>(new tiles());
 
-	m_playerArmy.push_back(cArmy(IMAGEMANAGER->AddTexture("./image/ship/player_1.png"), D3DXVECTOR2(0, 2000 - WINSIZEY)));
-
 	m_objs.push_back(make_pair(true, 2));
 	m_objs.push_back(make_pair(true, 2));
 	m_objs.push_back(make_pair(true, 3));
@@ -36,6 +69,9 @@ void readyScene::Init()
 	selectShip = 0;
 	nowDir = 0;
 	rightSelect = false;
+
+	m_cam.pos.y = 2000 - WINSIZEY / 2;
+	m_cam.pos.x = WINSIZEX / 2;
 
 	selectList.clear();
 }
@@ -47,6 +83,8 @@ void readyScene::Release()
 
 void readyScene::Update(double dt)
 {
+	waterFrame = (int)(DXUTGetTime() * 30) % 32;
+
 	if(settingEnd)
 		SCENEMANAGER->ChangeScene("game");
 
@@ -62,7 +100,14 @@ void readyScene::Update(double dt)
 		if (KEYMANAGER->IsOnceKeyDown(VK_LBUTTON))
 		{
 			selectList.push_back(tileList);
-			m_playerTiles->SetTile(std::move(tileList));
+			m_playerTiles->SetTile(tileList);
+			auto& result = m_playerArmy.emplace_back(cArmy(D3DXVECTOR2(0, 2000 - WINSIZEY)));
+			for (auto iter : tileList)
+			{
+				m_playerObjs[selectShip].InitPos({ iter }, iter);
+				result.AddUnit(m_playerObjs[selectShip]);
+				m_playerObjs[selectShip].ResetPos();
+			}
 
 			m_objs[selectShip].first = false;
 			for (int i = 0; i < m_objs.size(); i++)
@@ -84,6 +129,20 @@ void readyScene::Update(double dt)
 
 void readyScene::Render(LPD3DXSPRITE sprite)
 {
+	background->Render(sprite, 0, 0, GetCamMatrix());
+	
+	int waterAlpha = 200 * pow(m_cam.scale, 3) + 55;
+	if (waterAlpha > 200 + 55)
+		waterAlpha = 200 + 55;
+	
+	for (int i = 0; i < 2000; i += 64)
+	{
+		for (int j = 0; j < WINSIZEX; j += 64)
+			water[waterFrame]->Render(sprite, D3DCOLOR_ARGB(waterAlpha, 255, 255, 255), D3DXVECTOR2(j, i), GetCamMatrix());
+	}
+	
+	backgroundIsland->Render(sprite, 0, 0, GetCamMatrix());
+
 	for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
@@ -112,4 +171,11 @@ void readyScene::Render(LPD3DXSPRITE sprite)
 				rightTile->Render(sprite, gameScene::GetTilePos(iter2.x, iter2.y) + D3DXVECTOR2(0, m_cam.pos.y - WINSIZEY / 2), GetCamMatrix());
 		}
 	}
+	for (auto iter : m_playerArmy)
+	{
+		iter.Render(sprite, 0, GetCamMatrix());
+	}
+
+	sideBarUI->Render(sprite, 0, 0);
+	topBarUI->Render(sprite, 0, 0);
 }
